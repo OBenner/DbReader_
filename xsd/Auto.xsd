@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+    <xs:element name="Auto">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="auto" type="autotype" maxOccurs="10"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="autotype">
+        <xs:sequence>
+            <xs:element name="Model" type="xs:string"></xs:element>
+            <xs:element name="Data_vipuska" type="xs:string"></xs:element>
+            <xs:element name="Color" type="xs:string"></xs:element>
+            <xs:element name="Probeg" type="xs:int"></xs:element>
+            <xs:element name="Price" type="xs:int"></xs:element>
+        </xs:sequence>
+    </xs:complexType>
+
+</xs:schema>

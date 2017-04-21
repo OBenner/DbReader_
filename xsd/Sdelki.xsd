@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:element name="Sdelki">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" name="sdelka">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Data_vidachi" type="xs:string"/>
+                            <xs:element name="Data_sdachi" type="xs:string"/>
+                            <xs:element name="Client" type="xs:unsignedByte"/>
+                            <xs:element name="Auto" type="xs:unsignedByte"/>
+                            <xs:element name="Vidal" type="xs:unsignedByte"/>
+                            <xs:element name="Free" type="xs:string"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
