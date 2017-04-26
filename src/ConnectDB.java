@@ -144,12 +144,12 @@ public class ConnectDB {
     public void updateAuto() {
         if (connection == null) return;
         try {
-            System.out.println("Для изменения данных в таблице Автомобили, введите новые в формате:" +
-                    "Модель" +
-                    "Дата выпуска" +
-                    "Цвет" +
-                    "Пробег" +
-                    "Цена" +
+            System.out.println("Для изменения данных в таблице Автомобили, введите новые в формате:\n" +
+                    "Модель\n" +
+                    "Дата выпуска\n" +
+                    "Цвет\n" +
+                    "Пробег\n" +
+                    "Цена\n" +
                     "В конце укажите id, который хотите изменить.");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine(); //модель
@@ -178,8 +178,8 @@ public class ConnectDB {
     public void updateAutoColor() {
         if (connection == null) return;
         try {
-            System.out.println("Для изменения цвета в таблице Автомобили, введите новые в формате:" +
-                    "Цвет" +
+            System.out.println("Для изменения цвета в таблице Автомобили, введите новые в формате:\n" +
+                    "Цвет\n" +
                     "В конце укажите id, который хотите изменить.");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine(); //модель
@@ -199,8 +199,8 @@ public class ConnectDB {
     public void updateAutoProbeg() {
         if (connection == null) return;
         try {
-            System.out.println("Для изменения пробега в таблице Автомобили, введите новые в формате:" +
-                    "Пробег" +
+            System.out.println("Для изменения пробега в таблице Автомобили, введите новые в формате:\n" +
+                    "Пробег\n" +
                     "В конце укажите id, который хотите изменить.");
             Scanner sc = new Scanner(System.in);
             int s = sc.nextInt();// пробег
@@ -245,8 +245,8 @@ public class ConnectDB {
     public void insertClient() {
         if (connection == null) return;
         try {
-            System.out.println("Введите данные в формате:" +
-                    "Фамилия Имя Отчество" +
+            System.out.println("Введите данные в формате:\n" +
+                    "Фамилия Имя Отчество\n" +
                     "Документ");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();
@@ -283,9 +283,9 @@ public class ConnectDB {
     public void updateClients() {
         if (connection == null) return;
         try {
-            System.out.println("Для изменения данных в таблице Клиенты, введите новые в формате:" +
-                    "Фамилия Имя Отчество" +
-                    "Документ" +
+            System.out.println("Для изменения данных в таблице Клиенты, введите новые в формате:\n" +
+                    "Фамилия Имя Отчество\n" +
+                    "Документ\n" +
                     "В конце укажите id, который хотите изменить.");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine(); //ФИО
@@ -332,8 +332,8 @@ public class ConnectDB {
     public void insertDostup() {
         if (connection == null) return;
         try {
-            System.out.println("Введите данные в формате:" +
-                    "id Автомобиля" +
+            System.out.println("Введите данные в формате:\n" +
+                    "id Автомобиля\n" +
                     "Доступность автомобиля(да/нет)");
             Scanner sc = new Scanner(System.in);
             int s1 = sc.nextInt();
@@ -370,7 +370,7 @@ public class ConnectDB {
     public void updateDotup() {
         if (connection == null) return;
         try {
-            System.out.println("Для изменения данных в таблице Доступность автомобилей, введите новые в формате:" +
+            System.out.println("Для изменения данных в таблице Доступность автомобилей, введите новые в формате:\n" +
                     "id Автомобиля \n" +
                     "Доступность автомобиля(да/нет)\n" +
                     "В конце укажите номер, который хотите изменить.\n");
@@ -420,10 +420,10 @@ public class ConnectDB {
     public void insertSotrudniki() {
         if (connection == null) return;
         try {
-            System.out.println("Введите данные в формате:" +
-                    "Фамилия Имя Отчество" +
-                    "Дата приема" +
-                    "Должность");
+            System.out.println("Введите данные в формате:\n" +
+                    "Фамилия Имя Отчество\n" +
+                    "Дата приема\n" +
+                    "Должность\n");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();
             String s1 = sc.nextLine();
@@ -461,11 +461,11 @@ public class ConnectDB {
     public void updateSotrudniki() {
         if (connection == null) return;
         try {
-            System.out.println("Для изменения данных в таблице Сотрудники, введите новые в формате:" +
-                    "Фамилия Имя Отчество" +
-                    "Дата приема" +
-                    "Должность" +
-                    "В конце укажите id сотрудника, который хотите изменить.");
+            System.out.println("Для изменения данных в таблице Сотрудники, введите новые в формате:\n" +
+                    "Фамилия Имя Отчество\n" +
+                    "Дата приема\n" +
+                    "Должность\n" +
+                    "В конце укажите id сотрудника, который хотите изменить.\n");
             Scanner sc = new Scanner(System.in);
             String s1 = sc.nextLine(); //Fio
             String s2 = sc.nextLine(); //Дата приема
@@ -518,12 +518,12 @@ public class ConnectDB {
     public void insertSdelki() {
         if (connection == null) return;
         try {
-            System.out.println("Введите данные в формате:" +
-                    "Дата выдачи" +
-                    "Дата сдачи" +
-                    "id Клиента" +
-                    "id Автомобиля" +
-                    "Кто выдал(id Сотрудника)" +
+            System.out.println("Введите данные в формате:\n" +
+                    "Дата выдачи\n" +
+                    "Дата сдачи\n" +
+                    "id Клиента\n" +
+                    "id Автомобиля\n" +
+                    "Кто выдал(id Сотрудника)\n" +
                     "Доступность автомобиля");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();//дата выдачи
@@ -569,13 +569,13 @@ public class ConnectDB {
     public void updateSdelki() {
         if (connection == null) return;
         try {
-            System.out.println("Для изменения данных в таблице Сотрудники, введите новые в формате:" +
-                    "Дата выдачи" +
-                    "Дата сдачи" +
-                    "id Клиента" +
-                    "id Автомобиля" +
-                    "id Сотрудника" +
-                    "Доступность автомобиля(да/нет)" +
+            System.out.println("Для изменения данных в таблице Сотрудники, введите новые в формате:\n" +
+                    "Дата выдачи\n" +
+                    "Дата сдачи\n" +
+                    "id Клиента\n" +
+                    "id Автомобиля\n" +
+                    "id Сотрудника\n" +
+                    "Доступность автомобиля(да/нет)\n" +
                     "В конце укажите номер, который хотите изменить.");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();//дата выдачи
@@ -584,7 +584,7 @@ public class ConnectDB {
             int s3 = sc.nextInt();//автомобиль
             int s4 = sc.nextInt();//кто выдал
             String s5 = sc.nextLine();//доступность
-            int s6 = sc.nextInt();
+            int s6 = sc.nextInt();// номер
             PreparedStatement preparedStatement = connection.prepareStatement("update  Sdelki set Data_vidachi=?,Data_sdachi=?,Client=?,Auto=?,Vidal=?,Free=? where Nomer=? ");
             preparedStatement.setString(1, s);
             preparedStatement.setString(2, s1);
