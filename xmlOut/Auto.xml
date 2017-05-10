@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Auto>
+    <auto>
+        <id_auto>1</id_auto>
+        <Model>Vaz 2114</Model>
+        <Data_vipuska>2002</Data_vipuska>
+        <Color>white</Color>
+        <Probeg>100000</Probeg>
+        <Price>60000</Price>
+    </auto>
+    <auto>
+        <id_auto>2</id_auto>
+        <Model>Kia Rio</Model>
+        <Data_vipuska>2008</Data_vipuska>
+        <Color>red</Color>
+        <Probeg>40000</Probeg>
+        <Price>300000</Price>
+    </auto>
+    <auto>
+        <id_auto>4</id_auto>
+        <Model>BMW</Model>
+        <Data_vipuska>2017</Data_vipuska>
+        <Color>Black</Color>
+        <Probeg>2000</Probeg>
+        <Price>15000000</Price>
+    </auto>
+    <auto>
+        <id_auto>5</id_auto>
+        <Model>Chevrolet Tahoe</Model>
+        <Data_vipuska>2010</Data_vipuska>
+        <Color>black</Color>
+        <Probeg>105000</Probeg>
+        <Price>1200000</Price>
+    </auto>
+    <auto>
+        <id_auto>6</id_auto>
+        <Model>Chevrolet Tahoe</Model>
+        <Data_vipuska>2010</Data_vipuska>
+        <Color>black</Color>
+        <Probeg>105000</Probeg>
+        <Price>1200000</Price>
+    </auto>
+    <auto>
+        <id_auto>7</id_auto>
+        <Model>Chevrolet Lachetti</Model>
+        <Data_vipuska>2008</Data_vipuska>
+        <Color>silver</Color>
+        <Probeg>105000</Probeg>
+        <Price>120000</Price>
+    </auto>
+    <auto>
+        <id_auto>10</id_auto>
+        <Model>Chevrolet Lanos</Model>
+        <Data_vipuska>2008</Data_vipuska>
+        <Color>silver</Color>
+        <Probeg>105000</Probeg>
+        <Price>120000</Price>
+    </auto>
+    <auto>
+        <id_auto>12</id_auto>
+        <Model>Mercedes s500</Model>
+        <Data_vipuska>2017</Data_vipuska>
+        <Color>черный</Color>
+        <Probeg>3000</Probeg>
+        <Price>30000000</Price>
+    </auto>
+</Auto>
