@@ -101,22 +101,35 @@ public class ConnectDB {
                     "Цвет\n" +
                     "Пробег\n" +
                     "Цена.\n");
+
+
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into Auto (Model,Data_vipuska,Color,Probeg,Price) values (?,?,?,?,?) ");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();
             String s1 = sc.nextLine();
             String s2 = sc.nextLine();
-            int s3 = sc.nextInt();
-            int s4 = sc.nextInt();
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into Auto (Model,Data_vipuska,Color,Probeg,Price) values (?,?,?,?,?) ");
-            preparedStatement.setString(1, s);
-            preparedStatement.setString(2, s1);
-            preparedStatement.setString(3, s2);
-            preparedStatement.setInt(4, s3);
-            preparedStatement.setInt(5, s4);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s3 = sc.nextInt();
+                if (sc.hasNextInt()) {
+                    int s4 = sc.nextInt();
+                    preparedStatement.setString(1, s);
+                    preparedStatement.setString(2, s1);
+                    preparedStatement.setString(3, s2);
+                    preparedStatement.setInt(4, s3);
+                    preparedStatement.setInt(5, s4);
+                    preparedStatement.execute();
+                    preparedStatement.close();
+                    System.out.println("Выполнено");
+
+                } else {
+                    System.out.println("Вы ввели неправильную цену автомобиля ");
+                }
+            } else {
+                System.out.println("Вы ввели неправильный пробег");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
@@ -128,53 +141,80 @@ public class ConnectDB {
         try {
             System.out.println("Введите id автомобиля, который хотите удалить.");
             Scanner sc = new Scanner(System.in);
-            int s = sc.nextInt();
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from Auto where id_auto = ?");
-            preparedStatement.setInt(1, s);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();
+                PreparedStatement preparedStatement = connection.prepareStatement("delete from Auto where id_auto = ?");
+                preparedStatement.setInt(1, s);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Удалено");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
 
 
     /// Метод, изменяющий запись в таблице Автомобили
-    public void updateAuto() {
+    public void updateAuto() throws SQLException {
         if (connection == null) return;
+        System.out.println("Для изменения данных в таблице Автомобили, введите новые в формате:\n" +
+                "Модель\n" +
+                "Дата выпуска\n" +
+                "Цвет\n" +
+                "Пробег\n" +
+                "Цена\n" +
+                "В конце укажите id, который хотите изменить.");
+
         try {
-            System.out.println("Для изменения данных в таблице Автомобили, введите новые в формате:\n" +
-                    "Модель\n" +
-                    "Дата выпуска\n" +
-                    "Цвет\n" +
-                    "Пробег\n" +
-                    "Цена\n" +
-                    "В конце укажите id, который хотите изменить.");
+            PreparedStatement preparedStatement = connection.prepareStatement("update Auto set Model=?,Data_vipuska=?,Color=?,Probeg=?,Price=? where id_auto=?");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine(); //модель
             String s1 = sc.nextLine(); //дата выпуска
             String s2 = sc.nextLine(); //цвет
-            int s3 = sc.nextInt();// пробег
-            int s4 = sc.nextInt(); // цена
-            int s5 = sc.nextInt();// id
-            PreparedStatement preparedStatement = connection.prepareStatement("update  Auto set Model=?,Data_vipuska=?,Color=?,Probeg=?, Price=? where id_auto=? ");
-            preparedStatement.setString(1, s);
-            preparedStatement.setString(2, s1);
-            preparedStatement.setString(3, s2);
-            preparedStatement.setInt(4, s3);
-            preparedStatement.setInt(5, s4);
-            preparedStatement.setInt(5, s5);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s3 = sc.nextInt();// пробег
+                if (sc.hasNextInt()) {
+                    int s4 = sc.nextInt(); // цена
+                    if (sc.hasNextInt()) {
+                        int s5 = sc.nextInt();// id
+                        preparedStatement.setString(1, s);
+                        preparedStatement.setString(2, s1);
+                        preparedStatement.setString(3, s2);
+                        preparedStatement.setInt(4, s3);
+                        preparedStatement.setInt(5, s4);
+                        preparedStatement.setInt(6, s5);
+                        preparedStatement.executeUpdate();
+                        preparedStatement.close();
+                        System.out.println("Выполнено");
+
+                    } else {
+                        System.out.println("Вы ввели неправильный id");
+                    }
+                } else {
+                    System.out.println("Вы ввели неправильную цену");
+                }
+
+            } else {
+                System.out.println("Вы ввели неправильный пробег");
+
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+
         }
+        System.out.println("Данные изменены");
         return;
     }
 
 
-    /// Метод, изменяющий запись цвет в таблице Автомобили
+/// Метод, изменяющий запись цвет в таблице Автомобили
+
     public void updateAutoColor() {
         if (connection == null) return;
         try {
@@ -182,15 +222,21 @@ public class ConnectDB {
                     "Цвет\n" +
                     "В конце укажите id, который хотите изменить.");
             Scanner sc = new Scanner(System.in);
-            String s = sc.nextLine(); //модель
-            int s1 = sc.nextInt();// id
-            PreparedStatement preparedStatement = connection.prepareStatement("update  Auto set Color=? where id_auto=? ");
-            preparedStatement.setString(1, s);
-            preparedStatement.setInt(2, s1);
-            preparedStatement.execute();
-            preparedStatement.close();
+            String s = sc.nextLine(); //цвет
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Auto set Color=? where id_auto=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Цвет Изменен.");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
@@ -203,21 +249,116 @@ public class ConnectDB {
                     "Пробег\n" +
                     "В конце укажите id, который хотите изменить.");
             Scanner sc = new Scanner(System.in);
-            int s = sc.nextInt();// пробег
-            int s1 = sc.nextInt();// id
-            PreparedStatement preparedStatement = connection.prepareStatement("update  Auto set Probeg=? where id_auto=? ");
-            preparedStatement.setInt(1, s);
-            preparedStatement.setInt(2, s1);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();// пробег
+                if (sc.hasNextInt()) {
+                    int s1 = sc.nextInt();// id
+                    PreparedStatement preparedStatement = connection.prepareStatement("update  Auto set Probeg=? where id_auto=? ");
+                    preparedStatement.setInt(1, s);
+                    preparedStatement.setInt(2, s1);
+                    preparedStatement.execute();
+                    preparedStatement.close();
+                    System.out.println("Пробег Изменен.");
+                } else {
+                    System.out.println("Вы ввели неправильные данные, они должны быть в числовом варианте");
+                }
+            } else {
+                System.out.println("Вы ввели неправильные данные, они должны быть в числовом варианте");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    /// Метод, изменяющий запись Цену в таблице Автомобили
+    public void updateAutoPrice() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения цены в таблице Автомобили, введите новые в формате:\n" +
+                    "Новая цена\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();// цена
+                if (sc.hasNextInt()) {
+                    int s1 = sc.nextInt();// id
+                    PreparedStatement preparedStatement = connection.prepareStatement("update  Auto set Price=? where id_auto=? ");
+                    preparedStatement.setInt(1, s);
+                    preparedStatement.setInt(2, s1);
+                    preparedStatement.execute();
+                    preparedStatement.close();
+                    System.out.println("Цена Изменен.");
+                } else {
+                    System.out.println("Вы ввели неправильные данные, они должны быть в числовом варианте");
+                }
+            } else {
+                System.out.println("Вы ввели неправильные данные, они должны быть в числовом варианте");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    /// Метод, изменяющий запись модель в таблице Автомобили
+    public void updateAutoModel() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения модели в таблице Автомобили, введите новые в формате:\n" +
+                    "Новая модель\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            String s = sc.nextLine(); //модель
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Auto set Model=? where id_auto=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Модель Изменена.");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    /// Метод, изменяющий запись модель в таблице Автомобили
+    public void updateAutoData() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения даты выпуска автомобиля в таблице Автомобили, введите новые в формате:\n" +
+                    "Новая дата выпуска автомобиля\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            String s = sc.nextLine(); //дата выпуска
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Auto set Data_vipuska=? where id_auto=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Дата выпуска Изменена.");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
 
     //--------------------------------------------------------------------
-    //Метод, запс значения таблицы Клиенты в лист
+//Метод, запс значения таблицы Клиенты в лист
     public List<Clients> getClient() {
         if (connection == null) return null;
         try {
@@ -256,8 +397,10 @@ public class ConnectDB {
             preparedStatement.setString(2, s1);
             preparedStatement.execute();
             preparedStatement.close();
+            System.out.println("Выполнено");
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
@@ -268,13 +411,19 @@ public class ConnectDB {
         try {
             System.out.println("Введите id клиента, которого хотите удалить.");
             Scanner sc = new Scanner(System.in);
-            int s = sc.nextInt();
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from Clients where id_client = ?");
-            preparedStatement.setInt(1, s);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();
+                PreparedStatement preparedStatement = connection.prepareStatement("delete from Clients where id_client = ?");
+                preparedStatement.setInt(1, s);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Удаление выполнено");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
@@ -290,21 +439,81 @@ public class ConnectDB {
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine(); //ФИО
             String s1 = sc.nextLine(); //Документ
-            int s2 = sc.nextInt();// id
-            PreparedStatement preparedStatement = connection.prepareStatement("update  Clients set FIO=?,Document=? where id_client=? ");
-            preparedStatement.setString(1, s);
-            preparedStatement.setString(2, s1);
-            preparedStatement.setInt(3, s2);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s2 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Clients set FIO=?,Document=? where id_client=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setString(2, s1);
+                preparedStatement.setInt(3, s2);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Данные изменены");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    /// Метод, изменяющий запись модель в таблице Клиенты
+    public void updateClientFIO() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения ФИО в таблице Клиенты, введите новые в формате:\n" +
+                    "Новвые данные ФИО\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            String s = sc.nextLine(); //модель
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Clients set FIO=? where id_client=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("ФИО Изменены.");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    /// Метод, изменяющий запись документ в таблице Клиенты
+    public void updateClientDoc() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения документа в таблице Клиенты, введите новые в формате:\n" +
+                    "Новые данные документов\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            String s = sc.nextLine(); //документы
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Clients set Document=? where id_client=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Документы Изменены.");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
 
     //----------------------------------------------------------------------
-    //Метод записывающий значения таблицы в лист Доступность автомобилей
+//Метод записывающий значения таблицы в лист Доступность автомобилей
     public List<Dostup> getDostup() {
         if (connection == null) return null;
         try {
@@ -333,59 +542,140 @@ public class ConnectDB {
         if (connection == null) return;
         try {
             System.out.println("Введите данные в формате:\n" +
-                    "id Автомобиля\n" +
-                    "Доступность автомобиля(да/нет)");
+                    "Доступность автомобиля(да/нет)\n" +
+                    "id Автомобиля");
             Scanner sc = new Scanner(System.in);
-            int s1 = sc.nextInt();
             String s = sc.nextLine();
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into Dostup (Auto,Free) values (?,?) ");
-            preparedStatement.setInt(1, s1);
-            preparedStatement.setString(2, s);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();
+
+                PreparedStatement preparedStatement = connection.prepareStatement("insert into Dostup (Auto,Free) values (?,?) ");
+                preparedStatement.setInt(1, s1);
+                preparedStatement.setString(2, s);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Выполнено");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
 
-    ///Метод, удаляющий запись из таблицы Доступ
+    ///Метод, удаляющий запись из таблицы Доступ Автомобилей
     public void deleteDostupById() {
         if (connection == null) return;
         try {
             System.out.println("Введите номер, который хотите удалить.");
             Scanner sc = new Scanner(System.in);
-            int s = sc.nextInt();
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from Dostup where Nomer = ?");
-            preparedStatement.setInt(1, s);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();
+                PreparedStatement preparedStatement = connection.prepareStatement("delete from Dostup where Nomer = ?");
+                preparedStatement.setInt(1, s);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Удаление выполнено");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
 
     /// Метод, изменяющий запись в таблице Доступность Автомобилей
-    public void updateDotup() {
+    public void updateDostup() {
         if (connection == null) return;
         try {
             System.out.println("Для изменения данных в таблице Доступность автомобилей, введите новые в формате:\n" +
-                    "id Автомобиля \n" +
                     "Доступность автомобиля(да/нет)\n" +
+                    "id Автомобиля \n" +
                     "В конце укажите номер, который хотите изменить.\n");
             Scanner sc = new Scanner(System.in);
-            int s = sc.nextInt();// Автомобиль
             String s1 = sc.nextLine(); //Доступность
-            int s2 = sc.nextInt(); // Номер
-            PreparedStatement preparedStatement = connection.prepareStatement("update  Dostup set Auto=?,Free=? where Nomer=? ");
-            preparedStatement.setInt(1, s);
-            preparedStatement.setString(2, s1);
-            preparedStatement.setInt(3, s2);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();// Автомобиль
+                if (sc.hasNextInt()) {
+                int s2 = sc.nextInt(); // Номер
+                    PreparedStatement preparedStatement = connection.prepareStatement("update  Dostup set Auto=?,Free=? where Nomer=? ");
+                    preparedStatement.setInt(1, s);
+                    preparedStatement.setString(2, s1);
+                    preparedStatement.setInt(3, s2);
+                    preparedStatement.execute();
+                    preparedStatement.close();
+                    System.out.println("Выполнено");
+                } else {
+                    System.out.println("Вы ввели неправильный номер");
+                }
+            } else {
+                System.out.println("Вы ввели неправильный id автомобиля");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    /// Метод, изменяющий запись доступность в таблице Доступность Автомобилей
+    public void updateDostupFree() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения доступности автомобиля в таблице Доступ, введите новые в формате:\n" +
+                    "Новые данные доступности\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            String s = sc.nextLine(); //документы
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Dostup set Free=? where Nomer=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Доступность Изменена.");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    /// Метод, изменяющий автомобиль  в таблице Доступность  Автомобилей
+    public void updateDostupAuto() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения данных автомобиля в таблице Доступ автомобилей, введите новые в формате:\n" +
+                    "Новый автомобиль (номер id)\n" +
+                    "В конце укажите id записи в таблице, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();//автомобиль id
+                if (sc.hasNextInt()) {
+                    int s1 = sc.nextInt();// id
+                    PreparedStatement preparedStatement = connection.prepareStatement("update  Dostup set Auto=? where Nomer=? ");
+                    preparedStatement.setInt(1, s);
+                    preparedStatement.setInt(2, s1);
+                    preparedStatement.execute();
+                    preparedStatement.close();
+                    System.out.println("Автомобиль Изменен.");
+                } else {
+                    System.out.println("Вы ввели неправильные данные, они должны быть в числовом варианте");
+                }
+            } else {
+                System.out.println("Вы ввели неправильные данные, они должны быть в числовом варианте");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
@@ -434,8 +724,10 @@ public class ConnectDB {
             preparedStatement.setString(3, s2);
             preparedStatement.execute();
             preparedStatement.close();
+            System.out.println("Выполнено");
         } catch (SQLException e) {
-            e.printStackTrace();
+         //   e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
@@ -446,13 +738,19 @@ public class ConnectDB {
         try {
             System.out.println("Введите id сотрудника, которого хотите удалить.");
             Scanner sc = new Scanner(System.in);
-            int s = sc.nextInt();
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from Sotrudniki where id_sotr = ?");
-            preparedStatement.setInt(1, s);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();
+                PreparedStatement preparedStatement = connection.prepareStatement("delete from Sotrudniki where id_sotr = ?");
+                preparedStatement.setInt(1, s);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Удаление выполнено");
+            } else {
+                System.out.println("Вы ввели неправильные данные id, они должны быть в числовом варианте");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
@@ -470,21 +768,108 @@ public class ConnectDB {
             String s1 = sc.nextLine(); //Fio
             String s2 = sc.nextLine(); //Дата приема
             String s3 = sc.nextLine(); //Должность
-            int s4 = sc.nextInt(); // Номер
-            PreparedStatement preparedStatement = connection.prepareStatement("update  Sotrudniki set FIO=?,Data_priema=?,Doljnost=? where id_sotr=? ");
-            preparedStatement.setString(1, s1);
-            preparedStatement.setString(2, s2);
-            preparedStatement.setString(3, s3);
-            preparedStatement.setInt(4, s4);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s4 = sc.nextInt(); // Номер
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Sotrudniki set FIO=?,Data_priema=?,Doljnost=? where id_sotr=? ");
+                preparedStatement.setString(1, s1);
+                preparedStatement.setString(2, s2);
+                preparedStatement.setString(3, s3);
+                preparedStatement.setInt(4, s4);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Выполнено");
+            } else {
+                System.out.println("Вы ввели неправильный номер");
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
 
-    //-------------------------------------------------------------------
+
+    // Метод, изменяющий ФИО  в таблице Сотрудники
+    public void updateSotrudnikiFIO() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения ФИО в таблице Сотрудники, введите новые  данные в формате:\n" +
+                    "Новые ФИО\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            String s = sc.nextLine(); //документы
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Sotrudniki set FIO=? where id_sotr=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("ФИО Изменены.");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    // Метод, изменяющий Дату приема на работу  в таблице Сотрудники
+    public void updateSotrudnikiData() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения Даты приема в таблице Сотрудники, введите новые  данные в формате:\n" +
+                    "Новую дату приема на работу\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            String s = sc.nextLine(); //документы
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Sotrudniki set Data_priema=? where id_sotr=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Дата приема Изменена.");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    // Метод, изменяющий Должность  в таблице Сотрудники
+    public void updateSotrudnikiDoljnost() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения Должности в таблице Сотрудники, введите новые  данные в формате:\n" +
+                    "Новую должность\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            String s = sc.nextLine(); //документы
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Sotrudniki set Doljnost=? where id_sotr=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Должность Изменена.");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+//-------------------------------------------------------------------
 
     //Метод записывающий значения таблицы в лист Сделки
     public List<Sdelki> getSdelki() {
@@ -521,28 +906,46 @@ public class ConnectDB {
             System.out.println("Введите данные в формате:\n" +
                     "Дата выдачи\n" +
                     "Дата сдачи\n" +
+                    "Доступность автомобиля\n" +
                     "id Клиента\n" +
                     "id Автомобиля\n" +
-                    "Кто выдал(id Сотрудника)\n" +
-                    "Доступность автомобиля");
+                    "Кто выдал(id Сотрудника)");
+
+
+            PreparedStatement preparedStatement = connection.prepareStatement("insert into Sdelki (Data_vidachi,Data_sdachi,Client,Auto,Vidal,Free) values (?,?,?,?,?,?) ");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();//дата выдачи
             String s1 = sc.nextLine();//дата сдачи
-            int s2 = sc.nextInt();//клиент
-            int s3 = sc.nextInt();//автомобиль
-            int s4 = sc.nextInt();//кто выдал
             String s5 = sc.nextLine();//доступность
-            PreparedStatement preparedStatement = connection.prepareStatement("insert into Sdelki (Data_vidachi,Data_sdachi,Client,Auto,Vidal,Free) values (?,?,?,?,?,?) ");
-            preparedStatement.setString(1, s);
-            preparedStatement.setString(2, s1);
-            preparedStatement.setInt(3, s2);
-            preparedStatement.setInt(4, s3);
-            preparedStatement.setInt(5, s4);
-            preparedStatement.setString(6, s5);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s2 = sc.nextInt();//клиент
+                if (sc.hasNextInt()) {
+                    int s3 = sc.nextInt();//автомобиль
+                    if (sc.hasNextInt()) {
+                        int s4 = sc.nextInt();//кто выдал
+                        preparedStatement.setString(1, s);
+                        preparedStatement.setString(2, s1);
+                        preparedStatement.setInt(3, s2);
+                        preparedStatement.setInt(4, s3);
+                        preparedStatement.setInt(5, s4);
+                        preparedStatement.setString(6, s5);
+                        preparedStatement.execute();
+                        preparedStatement.close();
+                        System.out.println("Выполнено");
+                    } else {
+                        System.out.println("Вы ввели неправильный id менеджера");
+                    }
+                } else {
+                    System.out.println("Вы ввели неправильный id автомобиля");
+                }
+            } else {
+                System.out.println("Вы ввели неправильный id клиента");
+            }
+
+
         } catch (SQLException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
@@ -553,13 +956,21 @@ public class ConnectDB {
         try {
             System.out.println("Введите id сделки, которую хотите удалить.");
             Scanner sc = new Scanner(System.in);
-            int s = sc.nextInt();
-            PreparedStatement preparedStatement = connection.prepareStatement("delete from Sdelki where Nomer = ?");
-            preparedStatement.setInt(1, s);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();
+
+                PreparedStatement preparedStatement = connection.prepareStatement("delete from Sdelki where Nomer = ?");
+                preparedStatement.setInt(1, s);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Выполнено");
+            } else {
+                System.out.println("Вы ввели неправильный id сделки");
+
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
@@ -572,38 +983,236 @@ public class ConnectDB {
             System.out.println("Для изменения данных в таблице Сотрудники, введите новые в формате:\n" +
                     "Дата выдачи\n" +
                     "Дата сдачи\n" +
-                    "id Клиента\n" +
+                    "Доступность автомобиля\n" +
                     "id Автомобиля\n" +
                     "id Сотрудника\n" +
-                    "Доступность автомобиля(да/нет)\n" +
+                    "Номер сделки, которую хотите изменить\n" +
                     "В конце укажите номер, который хотите изменить.");
             Scanner sc = new Scanner(System.in);
             String s = sc.nextLine();//дата выдачи
             String s1 = sc.nextLine();//дата сдачи
-            int s2 = sc.nextInt();//клиент
-            int s3 = sc.nextInt();//автомобиль
-            int s4 = sc.nextInt();//кто выдал
             String s5 = sc.nextLine();//доступность
-            int s6 = sc.nextInt();// номер
-            PreparedStatement preparedStatement = connection.prepareStatement("update  Sdelki set Data_vidachi=?,Data_sdachi=?,Client=?,Auto=?,Vidal=?,Free=? where Nomer=? ");
-            preparedStatement.setString(1, s);
-            preparedStatement.setString(2, s1);
-            preparedStatement.setInt(3, s2);
-            preparedStatement.setInt(4, s3);
-            preparedStatement.setInt(5, s4);
-            preparedStatement.setString(6, s5);
-            preparedStatement.setInt(7, s6);
-            preparedStatement.execute();
-            preparedStatement.close();
+            if (sc.hasNextInt()) {
+                int s2 = sc.nextInt();//клиент
+                if (sc.hasNextInt()) {
+                    int s3 = sc.nextInt();//автомобиль
+                    if (sc.hasNextInt()) {
+                        int s4 = sc.nextInt();//кто выдал
+                        if (sc.hasNextInt()) {
+                            int s6 = sc.nextInt();// номер
+                            PreparedStatement preparedStatement = connection.prepareStatement("update  Sdelki set Data_vidachi=?,Data_sdachi=?,Client=?,Auto=?,Vidal=?,Free=? where Nomer=? ");
+                            preparedStatement.setString(1, s);
+                            preparedStatement.setString(2, s1);
+                            preparedStatement.setInt(3, s2);
+                            preparedStatement.setInt(4, s3);
+                            preparedStatement.setInt(5, s4);
+                            preparedStatement.setString(6, s5);
+                            preparedStatement.setInt(7, s6);
+                            preparedStatement.execute();
+                            preparedStatement.close();
+                            System.out.println("Выполнено");
+                        } else {
+                            System.out.println("Вы ввели неправильный номер сделки");
+
+                        }
+                    } else {
+                        System.out.println("Вы ввели неправильный id менеджера выдавшего автомобиль");
+
+                    }
+                } else {
+                    System.out.println("Вы ввели неправильный id автомобиля");
+
+                }
+            } else {
+                System.out.println("Вы ввели неправильный id клиента");
+
+            }
         } catch (SQLException e) {
-            e.printStackTrace();
+         //   e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    // Метод, изменяющий Дату выдачи автомобиля  в таблице Сделки
+    public void updateSdelkiDataV() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения Даты выдачи автомобия в таблице Сделки, введите новые  данные в формате:\n" +
+                    "Новую дату выдачи автомобиля\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            String s = sc.nextLine(); //дата выдачи
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Sdelki set Data_vidachi=? where Nomer=? ");
+
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Дата выдачи автомобиля Изменена.");
+            } else {
+                System.out.println("Вы ввели неправильный номер");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    // Метод, изменяющий Дату сдачи автомобиля  в таблице Сделки
+    public void updateSdelkiDataS() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения Даты сдачи автомобия в таблице Сделки, введите новые  данные в формате:\n" +
+                    "Новую дату сдачи автомобиля\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            String s = sc.nextLine(); //дата сдачи
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Sdelki set Data_sdachi=? where Nomer=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Дата сдачи автомобиля Изменена.");
+            } else {
+                System.out.println("Вы ввели неправильный номер");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    /// Метод, изменяющий Клиента  в таблице Сделки
+    public void updateSdelkiClient() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения данных клиента в таблице Сделки , введите новые в формате:\n" +
+                    "Новый клиент (номер id)\n" +
+                    "В конце укажите id записи в таблице, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();//клиент id
+                if (sc.hasNextInt()) {
+                    int s1 = sc.nextInt();// id
+                    PreparedStatement preparedStatement = connection.prepareStatement("update  Sdelki set Client=? where Nomer=? ");
+                    preparedStatement.setInt(1, s);
+                    preparedStatement.setInt(2, s1);
+                    preparedStatement.execute();
+                    preparedStatement.close();
+                    System.out.println("Клиент Изменен.");
+                } else {
+                    System.out.println("Вы ввели неправильные данные, они должны быть в числовом варианте");
+                }
+            } else {
+                System.out.println("Вы ввели неправильные данные, они должны быть в числовом варианте");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    /// Метод, изменяющий Автомобиль  в таблице Сделки
+    public void updateSdelkiAuto() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения данных автомобиля в таблице Сделки , введите новые в формате:\n" +
+                    "Новый клиент (номер id)\n" +
+                    "В конце укажите id записи в таблице, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();//автомобиль id
+                if (sc.hasNextInt()) {
+                    int s1 = sc.nextInt();// id
+                    PreparedStatement preparedStatement = connection.prepareStatement("update  Sdelki set Auto=? where Nomer=? ");
+                    preparedStatement.setInt(1, s);
+                    preparedStatement.setInt(2, s1);
+                    preparedStatement.execute();
+                    preparedStatement.close();
+                    System.out.println("Автомобиль Изменен.");
+                } else {
+                    System.out.println("Вы ввели неправильные данные, они должны быть в числовом варианте");
+                }
+            } else {
+                System.out.println("Вы ввели неправильные данные, они должны быть в числовом варианте");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    /// Метод, изменяющий менеджера выдавшего автомобиль  в таблице Сделки
+    public void updateSdelkiVidal() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения данных менеджера выдавшего автомобиль в таблице Сделки , введите новые в формате:\n" +
+                    "Новый менеджер (номер id)\n" +
+                    "В конце укажите id записи в таблице, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            if (sc.hasNextInt()) {
+                int s = sc.nextInt();//менеджер id
+                if (sc.hasNextInt()) {
+                    int s1 = sc.nextInt();// id
+                    PreparedStatement preparedStatement = connection.prepareStatement("update  Sdelki set Vidal=? where Nomer=? ");
+                    preparedStatement.setInt(1, s);
+                    preparedStatement.setInt(2, s1);
+                    preparedStatement.execute();
+                    preparedStatement.close();
+                    System.out.println("Менеджер Изменен.");
+                } else {
+                    System.out.println("Вы ввели неправильные данные id менеджера, они должны быть в числовом варианте");
+                }
+            } else {
+                System.out.println("Вы ввели неправильные данные номера сделки, они должны быть в числовом варианте");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
+        }
+        return;
+    }
+
+    // Метод, изменяющий  доступность автомобиля  в таблице Сделки
+    public void updateSdelkiFree() {
+        if (connection == null) return;
+        try {
+            System.out.println("Для изменения доступности автомобия в таблице Сделки, введите новые  данные в формате:\n" +
+                    "Новые данные доступности автомобиля\n" +
+                    "В конце укажите id, который хотите изменить.");
+            Scanner sc = new Scanner(System.in);
+            String s = sc.nextLine(); //дата сдачи
+            if (sc.hasNextInt()) {
+                int s1 = sc.nextInt();// id
+                PreparedStatement preparedStatement = connection.prepareStatement("update  Sdelki set Free=? where Nomer=? ");
+                preparedStatement.setString(1, s);
+                preparedStatement.setInt(2, s1);
+                preparedStatement.execute();
+                preparedStatement.close();
+                System.out.println("Доступность автомобиля Изменена.");
+            } else {
+                System.out.println("Вы ввели неправильный id");
+            }
+        } catch (SQLException e) {
+            //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
         return;
     }
 
     // -------------------------------------------------
-    //экспорт XML таблицы Автомобили
-    public void xmlbuildAuto() throws ParserConfigurationException, TransformerException, FileNotFoundException {
+//экспорт XML таблицы Автомобили
+    public void xmlbuildAuto() throws
+            ParserConfigurationException, TransformerException, FileNotFoundException {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = factory.newDocumentBuilder();
@@ -649,7 +1258,8 @@ public class ConnectDB {
             transformer.transform(domSource, streamResult);
             System.out.println("Файл создан");
         } catch (IOException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
 
 
@@ -657,7 +1267,8 @@ public class ConnectDB {
 
 
     //экспорт XML таблицы Клиенты
-    public void xmlbuildClients() throws ParserConfigurationException, TransformerException, FileNotFoundException {
+    public void xmlbuildClients() throws
+            ParserConfigurationException, TransformerException, FileNotFoundException {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = factory.newDocumentBuilder();
@@ -685,19 +1296,21 @@ public class ConnectDB {
         }
 
         DOMSource domSource = new DOMSource(document);
-        try (FileOutputStream fileOutputStream = new FileOutputStream(new File("xmlOut\\Cliets.xml"))) {
+        try (FileOutputStream fileOutputStream = new FileOutputStream(new File("xmlOut\\Clients.xml"))) {
             StreamResult streamResult = new StreamResult(fileOutputStream);
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             transformer.transform(domSource, streamResult);
             System.out.println("Файл создан");
         } catch (IOException e) {
-            e.printStackTrace();
+         //   e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
     }
 
     //экспорт XML таблицы Доступ
-    public void xmlbuildDostup() throws ParserConfigurationException, TransformerException, FileNotFoundException {
+    public void xmlbuildDostup() throws
+            ParserConfigurationException, TransformerException, FileNotFoundException {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = factory.newDocumentBuilder();
@@ -732,13 +1345,15 @@ public class ConnectDB {
             transformer.transform(domSource, streamResult);
             System.out.println("Файл создан");
         } catch (IOException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
     }
 
 
     //экспорт XML таблицы Сделки
-    public void xmlbuildSdelki() throws ParserConfigurationException, TransformerException, FileNotFoundException {
+    public void xmlbuildSdelki() throws
+            ParserConfigurationException, TransformerException, FileNotFoundException {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = factory.newDocumentBuilder();
@@ -788,13 +1403,15 @@ public class ConnectDB {
             transformer.transform(domSource, streamResult);
             System.out.println("Файл создан");
         } catch (IOException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            System.out.println("Вы совершили ошибку, попробуйте еще раз");
         }
 
     }
 
     //экспорт XML таблицы Сотрудники
-    public void xmlbuildSotrudniki() throws ParserConfigurationException, TransformerException, FileNotFoundException {
+    public void xmlbuildSotrudniki() throws
+            ParserConfigurationException, TransformerException, FileNotFoundException {
 
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder documentBuilder = factory.newDocumentBuilder();
@@ -826,18 +1443,22 @@ public class ConnectDB {
         }
 
         DOMSource domSource = new DOMSource(document);
-        FileOutputStream fileOutputStream = new FileOutputStream(new File("xmlOut\\Sotrudniki.xml")) ;
-            StreamResult streamResult = new StreamResult(fileOutputStream);
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.transform(domSource, streamResult);
-            System.out.println("Файл создан");
+        try (FileOutputStream fileOutputStream = new FileOutputStream(new File("xmlOut\\Sotrudniki.xml"))){;
+        StreamResult streamResult = new StreamResult(fileOutputStream);
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.transform(domSource, streamResult);
+        System.out.println("Файл создан");
+    } catch (IOException e) {
+        //  e.printStackTrace();
+        System.out.println("Вы совершили ошибку, попробуйте еще раз");
+    }
 
     }
 
-//------------------------------------------------------
-    //импорт XML таблицы Автомобили
-    public void exportXmlAuto() {
+    //------------------------------------------------------
+//импорт XML таблицы Автомобили
+    public void importXmlAuto() {
         Statement statement = null;
         Schema schema = null;
         try {
@@ -874,7 +1495,9 @@ public class ConnectDB {
                 return;
                 //   e.printStackTrace();
             }
-            NodeList nodeList = doc.getElementsByTagName("Auto");
+
+            NodeList nodeList = doc.getElementsByTagName("auto");
+
 
             for (int i = 0; i < nodeList.getLength(); i++) {
 
@@ -901,12 +1524,13 @@ public class ConnectDB {
             Logger.getLogger(ConnectDB.class.getName())
                     .log(Level.SEVERE, null, ex);
         } catch (SQLException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
+            System.out.println("Произошла ошибка, попробуйте еще раз");
         }
     }
 
     //импорт XML таблицы Клиенты
-    public void exportXmlClients() {
+    public void importXmlClients() {
         Statement statement = null;
         Schema schema = null;
         try {
@@ -943,7 +1567,7 @@ public class ConnectDB {
                 return;
                 //   e.printStackTrace();
             }
-            NodeList nodeList = doc.getElementsByTagName("Clients");
+            NodeList nodeList = doc.getElementsByTagName("client");
 
             for (int i = 0; i < nodeList.getLength(); i++) {
 
@@ -965,12 +1589,13 @@ public class ConnectDB {
             Logger.getLogger(ConnectDB.class.getName())
                     .log(Level.SEVERE, null, ex);
         } catch (SQLException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
+            System.out.println("Произошла ошибка, попробуйте еще раз");
         }
     }
 
     //импорт XML таблицы Доступность автомобилей
-    public void exportXmlDostup() {
+    public void importXmlDostup() {
         Statement statement = null;
         Schema schema = null;
         try {
@@ -1006,7 +1631,7 @@ public class ConnectDB {
                 System.out.println("Файл xml не соответствует  xsd схеме данной таблицы");
                 return;
             }
-            NodeList nodeList = doc.getElementsByTagName("Dostup");
+            NodeList nodeList = doc.getElementsByTagName("dostup_auto");
 
             for (int i = 0; i < nodeList.getLength(); i++) {
 
@@ -1028,12 +1653,13 @@ public class ConnectDB {
             Logger.getLogger(ConnectDB.class.getName())
                     .log(Level.SEVERE, null, ex);
         } catch (SQLException e) {
-            e.printStackTrace();
+         //   e.printStackTrace();
+            System.out.println("Произошла ошибка, попробуйте еще раз");
         }
     }
 
     //импорт XML таблицы Сотрудники
-    public void exportXmlSotrudniki() {
+    public void importXmlSotrudniki() {
         Statement statement = null;
         Schema schema = null;
         try {
@@ -1043,7 +1669,7 @@ public class ConnectDB {
         }
         Scanner scanner = new Scanner(System.in);
         System.out.println("Скопируйте файл в директорию, где находится программа" +
-                "\n Введите имя файла xml соответствующего для импорта в таблицу Доступность автомобилей");
+                "\n Введите имя файла xml соответствующего для импорта в таблицу Сотрудники");
         String string = scanner.nextLine();
         String FILENAME = string + ".xml";
 
@@ -1069,7 +1695,7 @@ public class ConnectDB {
                 System.out.println("Файл xml не соответствует  xsd схеме данной таблицы");
                 return;
             }
-            NodeList nodeList = doc.getElementsByTagName("Sotrudniki");
+            NodeList nodeList = doc.getElementsByTagName("sotrudnik");
 
             for (int i = 0; i < nodeList.getLength(); i++) {
 
@@ -1081,8 +1707,8 @@ public class ConnectDB {
                     String FIO = element.getElementsByTagName("FIO").item(0).getTextContent();
                     String Data_priema = element.getElementsByTagName("Data_priema").item(0).getTextContent();
                     String Doljnost = element.getElementsByTagName("Doljnost").item(0).getTextContent();
-                    statement.execute("INSERT INTO 'Sotridniki'('FIO','Data_priema','Doljnost')" +
-                            " VALUES ('" + FIO + "','" + Data_priema + Doljnost + "'); ");
+                    statement.execute("INSERT INTO 'Sotrudniki'('FIO','Data_priema','Doljnost')" +
+                            " VALUES ('" + FIO + "','" + Data_priema + "','" + Doljnost + "'); ");
                     System.out.println("Данные импортированы в таблицу");
 
                 }
@@ -1092,12 +1718,13 @@ public class ConnectDB {
             Logger.getLogger(ConnectDB.class.getName())
                     .log(Level.SEVERE, null, ex);
         } catch (SQLException e) {
-            e.printStackTrace();
+          //  e.printStackTrace();
+            System.out.println("Произошла ошибка, попробуйте еще раз");
         }
     }
 
     //импорт XML таблицы Сделки
-    public void exportXmlSdelki() {
+    public void importXmlSdelki() {
         Statement statement = null;
         Schema schema = null;
         try {
@@ -1107,7 +1734,7 @@ public class ConnectDB {
         }
         Scanner scanner = new Scanner(System.in);
         System.out.println("Скопируйте файл в директорию, где находится программа" +
-                "\n Введите имя файла xml соответствующего для импорта в таблицу Автомобили");
+                "\n Введите имя файла xml соответствующего для импорта в таблицу Сделки");
         String string = scanner.nextLine();
         String FILENAME = string + ".xml";
 
@@ -1133,7 +1760,7 @@ public class ConnectDB {
                 System.out.println("Файл xml не соответствует  xsd схеме данной таблицы");
                 return;
             }
-            NodeList nodeList = doc.getElementsByTagName("Sdelki");
+            NodeList nodeList = doc.getElementsByTagName("sdelka");
 
             for (int i = 0; i < nodeList.getLength(); i++) {
 
@@ -1149,9 +1776,9 @@ public class ConnectDB {
                     String Vidal = element.getElementsByTagName("Vidal").item(0).getTextContent();
                     String Free = element.getElementsByTagName("Free").item(0).getTextContent();
 
-                    statement.execute("INSERT INTO 'Auto'('Data_vidachi','Data_sdachi','Client','Auto','Vidal','Free')" +
+                    statement.execute("INSERT INTO 'Sdelki'('Data_vidachi','Data_sdachi','Client','Auto','Vidal','Free')" +
                             " VALUES ('" + Data_vidachi + "','" + Data_sdachi + "','" +
-                            Client + "','" + Auto + "','" + Vidal + Free + "'); ");
+                            Client + "','" + Auto + "','" + Vidal + "','" + Free + "'); ");
                     System.out.println("Данные импортированы в таблицу");
 
                 }
@@ -1161,7 +1788,8 @@ public class ConnectDB {
             Logger.getLogger(ConnectDB.class.getName())
                     .log(Level.SEVERE, null, ex);
         } catch (SQLException e) {
-            e.printStackTrace();
+           // e.printStackTrace();
+            System.out.println("Произошла ошибка, попробуйте еще раз");
         }
     }
 }
